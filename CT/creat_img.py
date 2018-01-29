@@ -1,21 +1,10 @@
 import numpy as np
-import tensorflow as tf
-import cv2
 import matplotlib.pyplot as plt
+from skimage.transform import iradon
 
-ct = np.loadtxt("data/data_5.txt")
-output = tf.Variable(tf.zeros([512,512]))
-sess = tf.Session()
+ct = np.loadtxt("data/data_2.txt")
 
-loss = 0
-
-for i in range(180):
-    loss += np.sum(cv2.rotate(sess.run(output.eval()),2*i),0)-ct[:,i]
-
-train = tf.train.RMSPropOptimizer(0.001).minimize(loss)
-sess.run(train)
-
-out = sess.run(output.eval())
-np.save("out.npy",out)
-plt.imshow(out)
+a = iradon(ct)
+plt.imshow(a)
+plt.savefig("ct4.jpg")
 plt.show()
